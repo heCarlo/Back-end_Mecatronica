@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password, check_password
 from django.core.validators import EmailValidator
+from django.utils import timezone
 
 class UserEntity(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -9,14 +9,11 @@ class UserEntity(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     email = models.EmailField(max_length=128, unique=True, validators=[EmailValidator()])
-
-    # Adicione métodos para personalização
-    def check_password(self, raw_password):
-        return check_password(raw_password, self.user.password)
-
-    def set_password(self, raw_password):
-        self.user.password = make_password(raw_password)
-        self.user.save()
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
 
     def __str__(self):
         return self.user.email
+
+    def save(self, *args, **kwargs):
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
