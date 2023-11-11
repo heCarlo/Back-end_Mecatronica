@@ -6,7 +6,7 @@ from django.core.validators import EmailValidator
 from django.utils import timezone
 
 class UserEntity(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)  # Adiciona o usuário padrão
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=1, primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     email = models.EmailField(max_length=128, unique=True, validators=[EmailValidator()])
