@@ -1,10 +1,9 @@
 from django.db import models
 
 class SensorData(models.Model):
-    angular_displacement = models.FloatField()
-    output_voltage = models.FloatField()
-    current = models.FloatField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+    sensort = models.FloatField()
+    servo_vertical = models.FloatField()
+    secury_mode = models.BooleanField()
 
     def __str__(self):
         return f'SensorData - {self.timestamp}'
