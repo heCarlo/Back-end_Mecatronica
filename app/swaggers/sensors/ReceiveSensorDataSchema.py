@@ -1,6 +1,6 @@
-# Arquivo: swagger_schemas.py
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from datetime import datetime
 
 sensor_data_request_body = openapi.Schema(
     type=openapi.TYPE_OBJECT,
@@ -17,7 +17,7 @@ sensor_data_response_properties = {
     'sensort': openapi.Schema(type=openapi.TYPE_NUMBER),
     'servo_vertical': openapi.Schema(type=openapi.TYPE_NUMBER),
     'secury_mode': openapi.Schema(type=openapi.TYPE_BOOLEAN),
-    'timestamp': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATETIME),
+    'created_at': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_DATETIME),
 }
 
 sensor_data_responses = {

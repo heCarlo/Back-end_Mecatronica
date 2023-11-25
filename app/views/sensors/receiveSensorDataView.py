@@ -34,11 +34,18 @@ class ReceiveSensorDataPostView(APIView):
             )
 
 
+from django.db.models import Subquery, OuterRef
+
 class ReceiveSensorDataGetView(APIView):
     @receive_sensor_data_get_schema
     def get(self, request, *args, **kwargs):
         try:
-            sensor_data = SensorData.objects.all()
+            # Subquery para obter o ID do objeto mais recente para cada valor único de secury_mode
+            latest_ids_subquery = SensorData.objects.filter(secury_mode=OuterRef('secury_mode')).order_by('-created_at').values('id')[:1]
+            
+            # Query principal para obter os objetos completos com base nos IDs mais recentes
+            sensor_data = SensorData.objects.filter(id__in=Subquery(latest_ids_subquery))
+            
             serializer = SensorDataSerializer(sensor_data, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
